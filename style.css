@@ -1,0 +1,171 @@
+@import url('https://fonts.googleapis.com/css?family=Poppins&display=swap');
+
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0
+}
+
+body {
+  font-family: 'Poppins', sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  min-height: 100vh;
+  background-color: #f5f5f5;
+}
+
+.container {
+  width: 30%;
+}
+
+.balance-container {
+  margin: 20px 0;
+}
+
+.balance-total {
+  font-size: 36px;
+  font-weight: 700;
+}
+
+.income-expense-container {
+  display: flex;
+  height: 20%;
+  border: 1px solid #ccc;
+  box-shadow: 1px 2px 4px rgba(0, 0, 0, 0.3);
+  margin: 20px 0;
+  padding: 15px;
+}
+
+.income-expense {
+  width: 50%;
+  text-align: center;
+}
+
+.income-expense:first-child {
+  border-right: 1px solid #ccc;
+}
+
+.income-value, .expense-value {
+  font-size: 24px;
+  font-weight: 700;
+}
+
+.green {
+  color: #2ED0B1;
+}
+
+.red {
+  color: tomato;
+}
+
+.add-transaction-container {
+  display: flex;
+  flex-direction: column;
+  margin: 20px 0;
+  height: 50%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+}
+
+hr {
+  margin: 15px 0;
+}
+
+.add-transaction-container > input {
+  padding: 8px;
+  font-size: 16px;
+  margin: 10px 0;
+}
+
+.add-transaction-container > input:focus {
+  outline: none;
+}
+
+.add-transaction-container > button {
+  border: none;
+  outline: none;
+  padding: 16px 32px;
+  background-color: #9C88FF;
+  color: white;
+  font-size: 16px;
+  border-radius: 6px;
+  box-shadow: 2px 4px 8px rgba(0, 0, 0, 0.3);
+  margin: 20px 0;
+}
+
+.add-transaction-container > button:hover {
+  cursor: pointer;
+}
+
+.history-wrapper {
+  margin: 10px 0;
+  display: flex;
+  justify-content: center;
+}
+
+.history {
+  border: 1px solid #ccc;
+  box-shadow: 1px 2px 3px rgba(0, 0, 0, 0.3);
+  display: flex;
+  justify-content: space-between;
+  width: 80%;
+  padding: 10px;
+}
+
+.cross-icon {
+  background: salmon;
+  width: 7%;
+  margin: 8px 0;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-right: 5px;
+  opacity: 1;
+}
+
+.cross-icon:hover {
+  cursor: pointer;
+}
+
+.cross-icon::after {
+  content: '';
+  position: absolute;
+  background: #fff;
+  height: 70%;
+  width: 5px;
+  left: 50%;
+  transform: translateX(-50%) rotate(45deg);
+}
+
+.cross-icon::before {
+  content: '';
+  position: absolute;
+  background: #fff;
+  height: 5px;
+  width: 70%;
+  top: 50%;
+  transform: translateY(-50%) rotate(45deg);
+}
+
+.validation {
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  background: #6c5eb5;
+  padding: 15px 25px;
+  margin: 10px;
+  border-radius: 15px;
+  color: white;
+  font-size: 14px;
+  box-shadow: 2px 4px 12px rgba(0, 0, 0, 0.3);
+  transform: translateY(120%);
+  transition: transform .3s ease;
+}
+
+.show-validation {
+  transform: translateY(0);
+}
