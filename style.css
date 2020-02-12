@@ -78,6 +78,8 @@ hr {
   padding: 8px;
   font-size: 16px;
   margin: 10px 0;
+  outline: none;
+  border: 1px solid #ccc
 }
 
 .add-transaction-container > input:focus {
@@ -146,9 +148,9 @@ hr {
   position: absolute;
   background: #fff;
   height: 5px;
-  width: 70%;
+  width: 55%;
   top: 50%;
-  transform: translateY(-50%) rotate(45deg);
+  transform: translateY(-50%) rotate(55deg);
 }
 
 .validation {

@@ -22,6 +22,7 @@ function deleteItem (idx) {
   const temp = balanceList.filter((i, index) => index !== idx)
   balanceList = [...temp]
   updateDOM()
+  window.localStorage.setItem('balanceList', JSON.stringify(balanceList))
 }
 
 function createHistoryDOM () {
