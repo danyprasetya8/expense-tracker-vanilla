@@ -37,6 +37,7 @@ function deleteItem (idx) {
 function createHistoryDOM () {
   historyListEl.innerHTML = ''
   balanceList.forEach((item, idx) => {
+    const type = validateType(item.amount)
     const wrapper = document.createElement('div')
     const icon = document.createElement('div')
     const history = document.createElement('div')
@@ -44,7 +45,7 @@ function createHistoryDOM () {
     const amount = document.createElement('span')
     wrapper.classList.add('history-wrapper')
     icon.classList.add('cross-icon')
-    history.classList.add('history')
+    history.classList.add('history', type)
     text.innerHTML = item.desc
     amount.innerHTML = item.amount
     icon.addEventListener('click', () => deleteItem(idx))

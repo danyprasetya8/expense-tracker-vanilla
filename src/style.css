@@ -161,6 +161,14 @@ hr {
   padding: 10px;
 }
 
+.expense {
+  border-right: 4px solid tomato;
+}
+
+.income {
+  border-right: 4px solid #2ED0B1;
+}
+
 .cross-icon {
   background: salmon;
   width: 7%;
