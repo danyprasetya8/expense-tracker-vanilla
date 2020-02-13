@@ -1,4 +1,5 @@
-var moment = require('moment')
+const moment = require('moment')
+import flatpickr from 'flatpickr'
 
 const totalBalanceEl = document.querySelector('.balance-total')
 const incomeValueEl = document.querySelector('.income-value')
@@ -8,8 +9,14 @@ const textValueEl = document.querySelector('#text-value')
 const amountValueEl = document.querySelector('#amount-value')
 const formEl = document.querySelector('.add-transaction-container')
 const validationEl = document.querySelector('.validation')
+const currDateEl = document.querySelector('#curr-date')
 
 let balanceList = []
+let date = null
+
+date = moment().format('DD MMMM YYYY')
+currDateEl.innerHTML = date
+currDateEl.style.textDecoration = 'underline'
 
 function curencyFormat (value) {
   return String(value).replace(/(\d)(?=(\d\d\d)+(?!\d))/g, '$1,')
@@ -70,7 +77,8 @@ formEl.addEventListener('submit', (e) => {
     const obj = {
       desc: textValueEl.value,
       amount: +amountValueEl.value,
-      type: validateType(amountValueEl.value)
+      type: validateType(amountValueEl.value),
+      date: date
     }
     balanceList.push(obj)
     window.localStorage.setItem('balanceList', JSON.stringify(balanceList))

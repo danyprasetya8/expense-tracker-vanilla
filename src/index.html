@@ -5,42 +5,50 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Expense Tracker</title>
   <link rel="stylesheet" href="./src/style.css">
-  <!-- <script src="script.js" defer></script> -->
 </head>
 <body>
   <h1>Expense Tracker</h1>
+  
   <div class="container">
-    <div class="balance-container">
-      <h3>YOUR BALANCE</h3>
-      <div class="balance-total">$0</div>
-    </div>
-
-    <div class="income-expense-container">
-      <div class="income-expense">
-        <span>INCOME</span>
-        <div class="income-value green">$0</div>
+    <ul class="navigation">
+      <li class="active">Transactions</li>
+      <li>Records</li>
+    </ul>
+    <div class="content">
+      <div class="transaction-container">
+        <h2 id="curr-date"></h2>
+        <div class="balance-container">
+          <h3>YOUR BALANCE</h3>
+          <div class="balance-total">$0</div>
+        </div>
+    
+        <div class="income-expense-container">
+          <div class="income-expense">
+            <span>INCOME</span>
+            <div class="income-value green">$0</div>
+          </div>
+          <div class="income-expense">
+            <span>EXPENSE</span>
+            <div class="expense-value red">$0</div>
+          </div>
+        </div>
+    
+        <form class="add-transaction-container">
+          <h3>Add new transaction</h3>
+          <hr>
+          <span>Text</span>
+          <input type="text" placeholder="Enter text..." id="text-value">
+          <span>Amount ( - / + )</span>
+          <input type="number" placeholder="Enter amount..." id="amount-value">
+          <button type="submit">Add transaction</button>
+        </form>
       </div>
-      <div class="income-expense">
-        <span>EXPENSE</span>
-        <div class="expense-value red">$0</div>
+      <div class="history-container">
+        <h3>History</h3>
+        <hr>
+        <div class="history-list"></div>
       </div>
     </div>
-
-    <div class="history-container">
-      <h3>History</h3>
-      <hr>
-      <div class="history-list"></div>
-    </div>
-
-    <form class="add-transaction-container">
-      <h3>Add new transaction</h3>
-      <hr>
-      <span>Text</span>
-      <input type="text" placeholder="Enter text..." id="text-value">
-      <span>Amount (negative - expense, positive - income)</span>
-      <input type="number" placeholder="Enter amount..." id="amount-value">
-      <button type="submit">Add transaction</button>
-    </form>
   </div>
   <div class="validation">
     You must fill the text and amount
