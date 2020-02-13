@@ -1,22 +1,71 @@
 const moment = require('moment')
 import flatpickr from 'flatpickr'
+import Chart from 'chart.js'
 
+
+
+
+// HOME PAGE
+const tabList = document.querySelectorAll('.tab')
+const trasactionTab = document.querySelector('.transactions')
+const recordTab = document.querySelector('.records')
+window.toggleActiveTab = function (type) {
+  tabList.forEach(tab => {
+    const { currtab } = tab.dataset
+    if (currtab === type) {
+      trasactionTab.className = 'transactions'
+      recordTab.className = 'records'
+      tab.classList.add('active')
+      if (type === 'TRANSACTIONS') {
+        trasactionTab.classList.add('show-tabs')
+      } else {
+        recordTab.classList.add('show-tabs')
+      }
+    } else {
+      tab.className = 'tab'
+    }
+  })
+}
+tabList[0].click()
+
+
+
+// TRANSACTIONS TAB
 const totalBalanceEl = document.querySelector('.balance-total')
 const incomeValueEl = document.querySelector('.income-value')
 const expenseValueEl = document.querySelector('.expense-value')
 const historyListEl = document.querySelector('.history-list')
-const textValueEl = document.querySelector('#text-value')
+/**------------------------------------------------------------------------- */
+const descValueEl = document.querySelector('#text-value')
 const amountValueEl = document.querySelector('#amount-value')
+const categoryValueEl = document.querySelector('#category-value')
 const formEl = document.querySelector('.add-transaction-container')
+/**------------------------------------------------------------------------- */
 const validationEl = document.querySelector('.validation')
+/**------------------------------------------------------------------------- */
 const currDateEl = document.querySelector('#curr-date')
+/**------------------------------------------------------------------------- */
+const categoryModalEl = document.querySelector('.category-modal')
+const addCategoryInput = document.querySelector('#add-category-input')
+const categoryErrorMsgEl = document.querySelector('.category-error-msg')
+/**------------------------------------------------------------------------- */
 
 let balanceList = []
 let date = null
+let categoryList = ['SALARY', 'FOOD', 'TRANSPORTATION']
 
 date = moment().format('DD MMMM YYYY')
 currDateEl.innerHTML = date
-currDateEl.style.textDecoration = 'underline'
+
+function generateCategoryList () {
+  categoryList.forEach(category => {
+    const categoryEl = document.createElement('option')
+    categoryEl.value = category.toUpperCase()
+    categoryEl.style.textTransform = 'capitalize'
+    categoryEl.innerHTML = category.toLowerCase()
+    categoryValueEl.appendChild(categoryEl)
+  })
+}
 
 function curencyFormat (value) {
   return String(value).replace(/(\d)(?=(\d\d\d)+(?!\d))/g, '$1,')
@@ -46,7 +95,8 @@ function createHistoryDOM () {
     wrapper.classList.add('history-wrapper')
     icon.classList.add('cross-icon')
     history.classList.add('history', type)
-    text.innerHTML = item.desc
+    text.style.textTransform = 'capitalize'
+    text.innerHTML = `${item.category.toLowerCase()} ${item.desc}`
     amount.innerHTML = item.amount
     icon.addEventListener('click', () => deleteItem(idx))
     history.appendChild(text)
@@ -74,22 +124,36 @@ function validateType(val) {
 
 formEl.addEventListener('submit', (e) => {
   e.preventDefault()
-  if (textValueEl.value.length && amountValueEl.value.length) {
+  if (amountValueEl.value.length && categoryValueEl.value.length) {
     const obj = {
-      desc: textValueEl.value,
+      desc: descValueEl.value,
       amount: +amountValueEl.value,
+      category: categoryValueEl.value,
       type: validateType(amountValueEl.value),
       date: date
     }
     balanceList.push(obj)
     window.localStorage.setItem('balanceList', JSON.stringify(balanceList))
     updateDOM()
-    textValueEl.value = ''
+    descValueEl.value = ''
     amountValueEl.value = ''
   } else {
     validationEl.classList.add('show-validation')
     setTimeout(() => validationEl.classList.remove('show-validation'), 1500)
   }
+})
+
+categoryModalEl.addEventListener('submit', e => {
+  e.preventDefault()
+  const newCategory = addCategoryInput.value
+  categoryErrorMsgEl.style.display = 'none'
+  if (newCategory !== '') {
+    categoryList.push(newCategory)
+    generateCategoryList()
+  } else {
+    categoryErrorMsgEl.style.display = 'block'
+  }
+  addCategoryInput.value = ''
 })
 
 function getLocalStorage () {
@@ -100,3 +164,30 @@ function getLocalStorage () {
 }
 
 getLocalStorage()
+generateCategoryList()
+
+
+
+
+
+//RECORDS TAB
+const ctx = document.querySelector('#records-chart')
+new Chart(ctx, {
+  type: 'pie',
+  data: {
+    labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+    datasets: [{
+      labels: '# of votes',
+      data: [12, 19, 3, 5, 2, 3],
+      backgroundColor: [
+        'rgba(255, 99, 132, 0.2)',
+        'rgba(54, 162, 235, 0.2)',
+        'rgba(255, 206, 86, 0.2)',
+        'rgba(75, 192, 192, 0.2)',
+        'rgba(153, 102, 255, 0.2)',
+        'rgba(255, 159, 64, 0.2)'
+      ],
+      borderWidth: 1
+    }]
+  }
+})

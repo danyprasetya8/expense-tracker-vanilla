@@ -10,7 +10,6 @@
 body {
   font-family: 'Poppins', sans-serif;
   display: flex;
-  justify-content: center;
   align-items: center;
   flex-direction: column;
   min-height: 100vh;
@@ -29,18 +28,18 @@ body > h1 {
 
 .navigation {
   width: 20%;
-  list-style: none;
   margin-right: 80px;
+  list-style: none;
   border-right: 1px solid #ccc;
 }
 
-.navigation li {
+.tab {
   padding: 20px;
   transition: all .3s ease;
   border-bottom: 1px solid #ccc;
 }
 
-.navigation li:hover{
+.tab:hover{
   background: #9C88FF;
   color: white;
   cursor: pointer;
@@ -51,18 +50,43 @@ body > h1 {
   color: white;
 }
 
-.content {
+.transactions {
   width: 80%;
+  display: none;
+}
+
+.records {
+  width: 80%;
+  display: none;
+  align-items: center;
+  flex-direction: column;
+}
+
+.chart-container {
+  width: 50%;
+}
+
+.show-tabs {
   display: flex;
 }
 
+#curr-date {
+  text-align: right;
+  background: #7464c4;
+  color: #fff;
+  padding: 8px 20px;
+  float: right;
+  border-radius: 24px;
+  box-shadow: 2px 2px 6px rgba(0, 0, 0, 0.3);
+}
+
 .transaction-container {
-  width: 50% 
+  width: 55% 
 }
 
 .history-container {
-  width: 50%;
-  margin-left: 20px;
+  width: 45%;
+  margin-left: 60px;
 }
 
 .balance-container {
@@ -108,7 +132,6 @@ body > h1 {
   display: flex;
   flex-direction: column;
   margin: 30px 0 20px;
-  height: 50%;
   display: flex;
   flex-direction: column;
   justify-content: space-evenly;
@@ -118,7 +141,11 @@ hr {
   margin: 15px 0;
 }
 
-.add-transaction-container > input {
+.add-transaction-container > select {
+  text-transform: capitalize;
+}
+
+.add-transaction-container > input, .add-transaction-container > select {
   padding: 8px;
   font-size: 16px;
   margin: 10px 0;
@@ -140,10 +167,7 @@ hr {
   border-radius: 6px;
   box-shadow: 2px 4px 8px rgba(0, 0, 0, 0.3);
   margin: 20px 0;
-}
-
-.add-transaction-container > button:hover {
-  cursor: pointer;
+  transition: background .3s ease;
 }
 
 .history-wrapper {
@@ -237,3 +261,95 @@ hr {
   outline: none;
   width: 100%;
 }
+
+.add-category {
+  position: fixed;
+  right: 0;
+  bottom: 0;
+  margin: 20px 40px;
+  background: #9C88FF;
+  padding: 16px 32px;
+  color: #fff;
+  border-radius: 32px;
+  box-shadow: 2px 4px 10px rgba(0, 0, 0, 0.3);
+  transition: background .3s ease;
+}
+
+.add-category:hover,
+.add-transaction-container > button:hover {
+  cursor: pointer;
+  background: #6c5eb5;
+}
+
+.transparent-layer {
+  position: fixed;
+  top: 0;
+  left: 0;
+  background: rgba(0, 0, 0, 0.2);
+  z-index: 3;
+  height: 100vh;
+  width: 100vw;
+}
+
+.category-modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 3;
+  height: 220px;
+  width: 400px;
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 2px 4px 10px rgba(0, 0, 0, 0.3);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  font-size: 20px;
+}
+
+#add-category-input {
+  padding: 8px 16px;
+  border: 1px solid #ccc;
+  outline: none;
+  font-size: 16px;
+  margin: 0 32px;
+}
+
+.category-modal > button {
+  font-size: 14px;
+  border: none;
+  outline: none;
+  padding: 12px 16px;
+  background-color: #9C88FF;
+  color: white;
+  border-radius: 6px;
+  box-shadow: 2px 4px 8px rgba(0, 0, 0, 0.3);
+  transition: background .3s ease;
+  margin: 0 32px 24px;
+}
+
+.category-modal > button:hover {
+  cursor: pointer;
+  background: #6c5eb5;
+}
+
+.category-name {
+  background: #6c5eb5;
+  color: #fff;
+  border-top-right-radius: inherit;
+  border-top-left-radius: inherit;
+  height: 30%;
+  display: flex;
+  align-items: center;
+  padding: 0 32px;
+  margin: 0 0 10px;
+}
+
+.category-error-msg {
+  font-size: 12px;
+  color: tomato;
+  margin: 0 32px;
+  display: none;
+}
+

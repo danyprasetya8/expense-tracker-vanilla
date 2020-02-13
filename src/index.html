@@ -11,12 +11,20 @@
   
   <div class="container">
     <ul class="navigation">
-      <li class="active">Transactions</li>
-      <li>Records</li>
+      <li class="tab active"
+          data-currtab="TRANSACTIONS"
+          onclick="toggleActiveTab('TRANSACTIONS')">
+        Transactions
+      </li>
+      <li class="tab"
+          data-currtab="RECORDS"
+          onclick="toggleActiveTab('RECORDS')">
+        Records
+      </li>
     </ul>
-    <div class="content">
+    <div class="transactions">
       <div class="transaction-container">
-        <h2 id="curr-date"></h2>
+        <div id="curr-date"></div>
         <div class="balance-container">
           <h3>YOUR BALANCE</h3>
           <div class="balance-total">$0</div>
@@ -36,10 +44,12 @@
         <form class="add-transaction-container">
           <h3>Add new transaction</h3>
           <hr>
-          <span>Text</span>
-          <input type="text" placeholder="Enter text..." id="text-value">
+          <span>Category</span>
+          <select name="" id="category-value"></select>
+          <span>Description</span>
+          <input type="text" placeholder="Transaction description" id="text-value">
           <span>Amount ( - / + )</span>
-          <input type="number" placeholder="Enter amount..." id="amount-value">
+          <input type="number" placeholder="Transaction amount" id="amount-value">
           <button type="submit">Add transaction</button>
         </form>
       </div>
@@ -48,10 +58,24 @@
         <hr>
         <div class="history-list"></div>
       </div>
+      <div class="add-category">+ Category</div>
+    </div>
+    <div class="records">
+      <div class="chart-container">
+        <canvas id="records-chart" width="200" height="200"></canvas>
+      </div>
     </div>
   </div>
   <div class="validation">
-    You must fill the text and amount
+    You must fill the text, amount, and category
   </div>
+
+  <div class="transparent-layer"></div>
+  <form class="category-modal">
+    <div class="category-name">Category Name</div>
+    <input type="text" id="add-category-input" placeholder="Category name">
+    <small class="category-error-msg">Please input category name</small>
+    <button type="submit">Add Category</button>
+  </form>
 </body>
 </html>

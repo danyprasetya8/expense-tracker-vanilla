@@ -18,6 +18,7 @@
   },
   "homepage": "https://github.com/danyprasetya8/expense-tracker-vanilla#readme",
   "dependencies": {
+    "chart.js": "^2.9.3",
     "css-loader": "^3.4.2",
     "flatpickr": "^4.6.3",
     "moment": "^2.24.0",
