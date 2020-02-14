@@ -47,15 +47,32 @@ body > h1 {
   border-bottom: 1px solid var(--primary-border-color);
 }
 
-.tab:hover{
+.tab:hover {
+  cursor: pointer;
+}
+
+.tab:hover:not(.active) {
   background: var(--secondary-color);
   color: var(--white-color);
-  cursor: pointer;
 }
 
 .active {
   background: var(--primary-color);
   color: var(--white-color);
+  position: relative;
+}
+
+.active::after {
+  content: '';
+  position: absolute;
+  right: -12px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 0; 
+  height: 0; 
+  border-top: 12px solid transparent;
+  border-bottom: 12px solid transparent;
+  border-left: 12px solid var(--primary-color);
 }
 
 .transactions {
