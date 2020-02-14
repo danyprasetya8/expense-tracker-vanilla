@@ -54,11 +54,10 @@
         </form>
       </div>
       <div class="history-container">
-        <h3>History</h3>
-        <hr>
+        <h3>HISTORY</h3>
         <div class="history-list"></div>
       </div>
-      <div class="add-category">+ Category</div>
+      <button class="add-category">+ Category</button>
     </div>
     <div class="records">
       <div class="chart-container">
@@ -67,15 +66,28 @@
     </div>
   </div>
   <div class="validation">
-    You must fill the text, amount, and category
+    You must fill the amount
   </div>
 
-  <div class="transparent-layer"></div>
+  <div class="transparent-layer" onclick="closeModal('category')"></div>
   <form class="category-modal">
     <div class="category-name">Category Name</div>
     <input type="text" id="add-category-input" placeholder="Category name">
     <small class="category-error-msg">Please input category name</small>
     <button type="submit">Add Category</button>
+  </form>
+  
+  <div class="transparent-layer" onclick="closeModal('edit')"></div>
+  <form class="edit-transaction-modal">
+    <h3>Edit transaction</h3>
+    <hr>
+    <span>Category</span>
+    <select name="" id="category-value"></select>
+    <span>Description</span>
+    <input type="text" placeholder="Transaction description" id="text-value">
+    <span>Amount ( - / + )</span>
+    <input type="number" placeholder="Transaction amount" id="amount-value">
+    <button type="submit">Add transaction</button>
   </form>
 </body>
 </html>

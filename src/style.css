@@ -1,6 +1,14 @@
 @import url('https://fonts.googleapis.com/css?family=Poppins&display=swap');
 @import '../node_modules/flatpickr/dist/flatpickr.min.css';
 
+:root {
+  --primary-color: #9C88FF;
+  --secondary-color: #7464c4;
+  --primary-border-color: #ccc;
+  --primary-background: #f5f5f5;
+  --white-color: #fff;
+}
+
 * {
   box-sizing: border-box;
   padding: 0;
@@ -13,7 +21,7 @@ body {
   align-items: center;
   flex-direction: column;
   min-height: 100vh;
-  background-color: #f5f5f5;
+  background-color: var(--primary-background);
 }
 
 body > h1 {
@@ -30,24 +38,24 @@ body > h1 {
   width: 20%;
   margin-right: 80px;
   list-style: none;
-  border-right: 1px solid #ccc;
+  border-right: 1px solid var(--primary-border-color);
 }
 
 .tab {
   padding: 20px;
   transition: all .3s ease;
-  border-bottom: 1px solid #ccc;
+  border-bottom: 1px solid var(--primary-border-color);
 }
 
 .tab:hover{
-  background: #9C88FF;
-  color: white;
+  background: var(--secondary-color);
+  color: var(--white-color);
   cursor: pointer;
 }
 
 .active {
-  background: #7464c4;
-  color: white;
+  background: var(--primary-color);
+  color: var(--white-color);
 }
 
 .transactions {
@@ -72,8 +80,8 @@ body > h1 {
 
 #curr-date {
   text-align: right;
-  background: #7464c4;
-  color: #fff;
+  background: var(--secondary-color);
+  color: var(--white-color);
   padding: 8px 20px;
   float: right;
   border-radius: 24px;
@@ -87,6 +95,8 @@ body > h1 {
 .history-container {
   width: 45%;
   margin-left: 60px;
+  border-left: 1px solid var(--primary-border-color);
+  padding-left: 20px;
 }
 
 .balance-container {
@@ -100,7 +110,7 @@ body > h1 {
 
 .income-expense-container {
   display: flex;
-  border: 1px solid #ccc;
+  border: 1px solid var(--primary-border-color);
   box-shadow: 1px 2px 4px rgba(0, 0, 0, 0.3);
   margin: 20px 0;
   padding: 15px;
@@ -112,7 +122,7 @@ body > h1 {
 }
 
 .income-expense:first-child {
-  border-right: 1px solid #ccc;
+  border-right: 1px solid var(--primary-border-color);
 }
 
 .income-value, .expense-value {
@@ -150,7 +160,7 @@ hr {
   font-size: 16px;
   margin: 10px 0;
   outline: none;
-  border: 1px solid #ccc
+  border: 1px solid var(--primary-border-color)
 }
 
 .add-transaction-container > input:focus {
@@ -161,10 +171,10 @@ hr {
   border: none;
   outline: none;
   padding: 16px 32px;
-  background-color: #9C88FF;
-  color: white;
+  background-color: var(--primary-color);
+  color: var(--white-color);
   font-size: 16px;
-  border-radius: 6px;
+  border-radius: 24px;
   box-shadow: 2px 4px 8px rgba(0, 0, 0, 0.3);
   margin: 20px 0;
   transition: background .3s ease;
@@ -176,8 +186,12 @@ hr {
   justify-content: center;
 }
 
+.history-wrapper:hover {
+  cursor: pointer;
+}
+
 .history {
-  border: 1px solid #ccc;
+  border: 1px solid var(--primary-border-color);
   box-shadow: 1px 2px 3px rgba(0, 0, 0, 0.3);
   display: flex;
   justify-content: space-between;
@@ -212,7 +226,7 @@ hr {
 .cross-icon::after {
   content: '';
   position: absolute;
-  background: #fff;
+  background: var(--white-color);
   height: 70%;
   width: 5px;
   left: 50%;
@@ -222,7 +236,7 @@ hr {
 .cross-icon::before {
   content: '';
   position: absolute;
-  background: #fff;
+  background: var(--white-color);
   height: 5px;
   width: 55%;
   top: 50%;
@@ -233,11 +247,11 @@ hr {
   position: fixed;
   left: 0;
   bottom: 0;
-  background: #6c5eb5;
+  background: var(--secondary-color);
   padding: 15px 25px;
   margin: 10px;
   border-radius: 15px;
-  color: white;
+  color: var(--white-color);
   font-size: 14px;
   box-shadow: 2px 4px 12px rgba(0, 0, 0, 0.3);
   transform: translateY(120%);
@@ -249,11 +263,11 @@ hr {
 }
 
 .calendar {
-  border: 1px solid #ccc;
+  border: 1px solid var(--primary-border-color);
   width: 100%;
   margin: 20px 0;
   padding: 10px;
-  background: #fff;
+  background: var(--white-color);
 }
 
 .calendar input {
@@ -267,18 +281,28 @@ hr {
   right: 0;
   bottom: 0;
   margin: 20px 40px;
-  background: #9C88FF;
+  background: var(--primary-color);
   padding: 16px 32px;
-  color: #fff;
+  color: var(--white-color);
   border-radius: 32px;
   box-shadow: 2px 4px 10px rgba(0, 0, 0, 0.3);
-  transition: background .3s ease;
+  transition-property: background, transform, box-shadow;
+  transition-duration: 1s, .1s, 1s;
+  transition-timing-function: ease;
+  outline: none;
+  border: none;
+  font-size: 16px;
+}
+
+.add-category:active {
+  transform: translateY(3px);
+  box-shadow: 2px 4px 2px rgba(0, 0, 0, 0.3);
 }
 
 .add-category:hover,
 .add-transaction-container > button:hover {
   cursor: pointer;
-  background: #6c5eb5;
+  background: var(--secondary-color);
 }
 
 .transparent-layer {
@@ -289,28 +313,33 @@ hr {
   z-index: 3;
   height: 100vh;
   width: 100vw;
+  display: none;
 }
 
-.category-modal {
+.show {
+  display: block;
+}
+
+.category-modal, .edit-transaction-modal {
   position: fixed;
   top: 50%;
   left: 50%;
-  transform: translate(-50%, -50%);
   z-index: 3;
   height: 220px;
   width: 400px;
-  background: #fff;
+  background: var(--white-color);
   border-radius: 16px;
   box-shadow: 2px 4px 10px rgba(0, 0, 0, 0.3);
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   font-size: 20px;
+  transform: translate(-50%, -50%) scale(0);
 }
 
 #add-category-input {
   padding: 8px 16px;
-  border: 1px solid #ccc;
+  border: 1px solid var(--primary-border-color);
   outline: none;
   font-size: 16px;
   margin: 0 32px;
@@ -321,8 +350,8 @@ hr {
   border: none;
   outline: none;
   padding: 12px 16px;
-  background-color: #9C88FF;
-  color: white;
+  background-color: var(--primary-color);
+  color: var(--white-color);
   border-radius: 6px;
   box-shadow: 2px 4px 8px rgba(0, 0, 0, 0.3);
   transition: background .3s ease;
@@ -331,12 +360,12 @@ hr {
 
 .category-modal > button:hover {
   cursor: pointer;
-  background: #6c5eb5;
+  background: var(--secondary-color);
 }
 
 .category-name {
-  background: #6c5eb5;
-  color: #fff;
+  background: var(--secondary-color);
+  color: var(--white-color);
   border-top-right-radius: inherit;
   border-top-left-radius: inherit;
   height: 30%;
@@ -353,3 +382,25 @@ hr {
   display: none;
 }
 
+.category-modal.show-modal, .edit-transaction-modal.show-modal {
+  opacity: 0;
+  animation-name: bounceIn;
+  animation-duration: .4s;
+  animation-timing-function: linear;
+  animation-fill-mode: forwards;
+}
+
+@keyframes bounceIn{
+  0%{
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.3) translate3d(0,0,0);
+  }
+  50%{
+    opacity: 0.9;
+    transform: translate(-50%, -50%) scale(1.1);
+  }
+  100%{
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1) translate3d(0,0,0);
+  }
+}
