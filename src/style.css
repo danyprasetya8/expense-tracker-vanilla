@@ -83,12 +83,19 @@ body > h1 {
 .records {
   width: 80%;
   display: none;
-  align-items: center;
-  flex-direction: column;
+  border: 1px solid red;
 }
 
 .chart-container {
-  width: 50%;
+  width: 40%;
+  padding-right: 20px;
+  margin-right: 20px;
+  border-right: 1px solid var(--primary-border-color);
+}
+
+.records-container {
+  border: 1px solid red;
+  width: 60%;
 }
 
 .show-tabs {
@@ -173,7 +180,8 @@ hr {
   text-transform: capitalize;
 }
 
-.add-transaction-container > input, .add-transaction-container > select {
+.add-transaction-container > input,
+.add-transaction-container > select {
   padding: 8px;
   font-size: 16px;
   margin: 10px 0;
@@ -280,20 +288,6 @@ hr {
 
 .show-validation {
   transform: translateY(0);
-}
-
-.calendar {
-  border: 1px solid var(--primary-border-color);
-  width: 100%;
-  margin: 20px 0;
-  padding: 10px;
-  background: var(--white-color);
-}
-
-.calendar input {
-  border: none;
-  outline: none;
-  width: 100%;
 }
 
 .add-category {
@@ -460,4 +454,46 @@ hr {
 .edit-transaction-container > select {
   margin: 8px 0;
   padding: 4px;
+}
+
+
+
+
+
+
+
+
+.calendar {
+  border: 1px solid var(--primary-border-color);
+  width: 60%;
+  margin: 20px 0;
+  padding: 10px;
+  background: var(--white-color);
+}
+
+.calendar input {
+  border: none;
+  outline: none;
+  width: 100%;
+}
+
+.records-list {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-gap: 10px;
+}
+
+.record-item {
+  display: flex;
+  border: 1px solid red;
+}
+
+.record-item div:first-child {
+  /* text-align: right; */
+}
+
+.record-item div {
+  width: 33%;
+  margin-right: 10px;
+  text-align: center;
 }

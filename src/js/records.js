@@ -1,6 +1,10 @@
 import Chart from 'chart.js'
 import flatpickr from 'flatpickr'
 
+flatpickr('#date-picker', {
+  altInput: true 
+})
+
 const ctx = document.querySelector('#records-chart')
 new Chart(ctx, {
   type: 'pie',
@@ -19,5 +23,10 @@ new Chart(ctx, {
       ],
       borderWidth: 1
     }]
+  },
+  options: {
+    legend: {
+      display: false
+    }
   }
 })
