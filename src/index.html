@@ -69,7 +69,7 @@
     You must fill the amount
   </div>
 
-  <div class="transparent-layer" onclick="closeModal('category')"></div>
+  <div class="transparent-layer-category" onclick="closeModal('category')"></div>
   <form class="category-modal">
     <div class="category-name">Category Name</div>
     <input type="text" id="add-category-input" placeholder="Category name">
@@ -77,17 +77,18 @@
     <button type="submit">Add Category</button>
   </form>
   
-  <div class="transparent-layer" onclick="closeModal('edit')"></div>
+  <div class="transparent-layer-edit-transaction" onclick="closeModal('edit')"></div>
   <form class="edit-transaction-modal">
-    <h3>Edit transaction</h3>
-    <hr>
-    <span>Category</span>
-    <select name="" id="category-value"></select>
-    <span>Description</span>
-    <input type="text" placeholder="Transaction description" id="text-value">
-    <span>Amount ( - / + )</span>
-    <input type="number" placeholder="Transaction amount" id="amount-value">
-    <button type="submit">Add transaction</button>
+    <div class="edit-transaction-name">Edit Transaction</div>
+    <div class="edit-transaction-container">
+      <span>Category</span>
+      <select name="" id="edit-category-value"></select>
+      <span>Description</span>
+      <input type="text" placeholder="Transaction description" id="edit-text-value">
+      <span>Amount ( - / + )</span>
+      <input type="number" placeholder="Transaction amount" id="edit-amount-value">
+      <button type="submit">Edit transaction</button>
+    </div>
   </form>
 </body>
 </html>

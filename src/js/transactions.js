@@ -4,23 +4,30 @@ const totalBalanceEl = document.querySelector('.balance-total')
 const incomeValueEl = document.querySelector('.income-value')
 const expenseValueEl = document.querySelector('.expense-value')
 const historyListEl = document.querySelector('.history-list')
-/**------------------------------------------------------------------------- */
+/**---------------------------TRANSACTION DOM----------------------------- */
 const descValueEl = document.querySelector('#text-value')
 const amountValueEl = document.querySelector('#amount-value')
 const categoryValueEl = document.querySelector('#category-value')
+const editCategoryValueEl = document.querySelector('#edit-category-value')
 const formEl = document.querySelector('.add-transaction-container')
-/**------------------------------------------------------------------------- */
+/**-----------------------FORM TRANSACTION---------------------------------- */
 const validationEl = document.querySelector('.validation')
 /**------------------------------------------------------------------------- */
 const currDateEl = document.querySelector('#curr-date')
 /**------------------------------------------------------------------------- */
-const categoryModalEl = document.querySelector('.category-modal')
 const addCategoryInput = document.querySelector('#add-category-input')
 const categoryErrorMsgEl = document.querySelector('.category-error-msg')
 const addCategoryEl = document.querySelector('.add-category')
-const transparentLayerEl = document.querySelector('.transparent-layer')
+/**--------------------------ADD CATEGORY MODAL------------------------------ */
+const categoryModalEl = document.querySelector('.category-modal')
 const editTransactionModalEl = document.querySelector('.edit-transaction-modal')
-/**------------------------------------------------------------------------- */
+const transparentLayerCategoryEl = document.querySelector('.transparent-layer-category')
+const transparentLayerEditTransactionEl = document.querySelector('.transparent-layer-edit-transaction')
+/**------------------------SHOW / HIDE MODAL---------------------------------- */
+const categoryEditEl = document.querySelector('#edit-category-value')
+const descEditEl = document.querySelector('#edit-text-value')
+const amountEditEl = document.querySelector('#edit-amount-value')
+/**-----------------------EDIT TRANSACTION MODAL---------------------------- */
 
 const DEFAULT_CATEGORY = ['SALARY', 'FOOD', 'TRANSPORTATION']
 let balanceList = []
@@ -34,14 +41,15 @@ function generateTransactionId ({ desc, amount, category, type, date }) {
   return `${desc}$${amount}$${category}$${type}$${date}`
 }
 
-function generateCategoryList () {
-  categoryValueEl.innerHTML = ''
+function generateCategoryList (type = '') {
+  const el = type === 'edit' ? editCategoryValueEl : categoryValueEl
+  el.innerHTML = ''
   categoryList.forEach(category => {
     const categoryEl = document.createElement('option')
     categoryEl.value = category.toUpperCase()
     categoryEl.style.textTransform = 'capitalize'
     categoryEl.innerHTML = category.toLowerCase()
-    categoryValueEl.appendChild(categoryEl)
+    el.appendChild(categoryEl)
   })
 }
 
@@ -52,13 +60,6 @@ function curencyFormat (value) {
 function filterBalance (type) {
   const filtered = balanceList.filter(i => i.type === type)
   return filtered.length ? filtered.reduce((acc, curr) => acc + Math.abs(curr.amount), 0) : 0
-}
-
-function deleteItem (idx) {
-  const temp = balanceList.filter((i, index) => index !== idx)
-  balanceList = [...temp]
-  updateDOM()
-  window.localStorage.setItem('balanceList', JSON.stringify(balanceList))
 }
 
 function createHistoryDOM () {
@@ -76,8 +77,8 @@ function createHistoryDOM () {
     text.style.textTransform = 'capitalize'
     text.innerHTML = `${item.category.toLowerCase()} ${item.desc}`
     amount.innerHTML = item.amount
-    icon.addEventListener('click', () => deleteItem(idx))
-    history.addEventListener('click', () => editTransaction(item))
+    icon.addEventListener('click', () => deleteTransaction(idx))
+    history.addEventListener('click', () => showEditTransactionModal(item))
     history.appendChild(text)
     history.appendChild(amount)
     wrapper.appendChild(icon)
@@ -103,17 +104,24 @@ function validateType(val) {
 
 function closeModal (type) {
   const el = type === 'category' ? categoryModalEl : editTransactionModalEl
+  const layer = type === 'category' ? transparentLayerCategoryEl : transparentLayerEditTransactionEl
   el.classList.remove('show-modal')
-  transparentLayerEl.classList.remove('show')
+  layer.classList.remove('show')
 }
 
-function showModal (el) {
+function showModal (el, layer) {
   el.classList.add('show-modal')
-  transparentLayerEl.classList.add('show')
+  layer.classList.add('show')
 }
 
-function editTransaction ({ id }) {
-  showModal(editTransactionModalEl)
+function showEditTransactionModal ({ id }) {
+  showModal(editTransactionModalEl, transparentLayerEditTransactionEl)
+  const found = balanceList.find(item => item.id === id)
+  generateCategoryList('edit')
+  categoryEditEl.value = found.category
+  descEditEl.value = found.desc
+  amountEditEl.value = found.amount
+  editTransactionModalEl.addEventListener('submit', (e) => updateTransaction(e, found))
 }
 
 function createTransactionObj () {
@@ -142,11 +150,29 @@ function addNewCategory (e) {
   addCategoryInput.value = ''
 }
 
+function updateTransaction (e, found) {
+  e.preventDefault()
+  const temp = { ...found }
+  temp.category = categoryEditEl.value
+  temp.desc = descEditEl.value
+  temp.amount = amountEditEl.value
+  balanceList[balanceList.indexOf(found)] = temp
+  createHistoryDOM()
+  closeModal('edit')
+  window.localStorage.setItem('balanceList', JSON.stringify(balanceList))
+}
+
+function deleteTransaction (idx) {
+  const temp = balanceList.filter((i, index) => index !== idx)
+  balanceList = [...temp]
+  updateDOM()
+  window.localStorage.setItem('balanceList', JSON.stringify(balanceList))
+}
+
 function addNewTransaction (e) {
   e.preventDefault()
   if (amountValueEl.value.length && categoryValueEl.value.length) {
     const obj = createTransactionObj()
-    console.log(obj)
     balanceList.push(obj)
     updateDOM()
     descValueEl.value = ''
@@ -167,7 +193,7 @@ function getLocalStorage () {
 
 formEl.addEventListener('submit', addNewTransaction)
 categoryModalEl.addEventListener('submit', addNewCategory)
-addCategoryEl.addEventListener('click', () => showModal(categoryModalEl))
+addCategoryEl.addEventListener('click', () => showModal(categoryModalEl, transparentLayerCategoryEl))
 
 window.closeModal = (type) => closeModal(type)
 
