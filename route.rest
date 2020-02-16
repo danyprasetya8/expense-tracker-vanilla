@@ -1,0 +1,36 @@
+GET http://localhost:5001/transactions/
+
+###
+
+GET http://localhost:5001/transactions/5e481f128da2fe2bf098bd24
+
+###
+
+POST http://localhost:5001/transactions/
+Content-Type: application/json
+
+{
+  "desc": "test",
+  "amount": 2,
+  "category": "Food",
+  "type": "expense",
+  "date": "15 Januari 2020"
+}
+
+###
+
+DELETE http://localhost:5001/transactions/5e48211dcf0ec941d063602a
+
+###
+
+
+PATCH  http://localhost:5001/transactions/5e48211dcf0ec941d063602a
+Content-Type: application/json
+
+{
+  "desc": "test",
+  "amount": 1200,
+  "category": "Food",
+  "type": "expense",
+  "date": "15 Januari 2020"
+}

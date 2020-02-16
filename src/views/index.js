@@ -1,6 +1,6 @@
 
-import Transactions from './js/transactions'
-import Records from './js/records'
+import Transactions from '@/transactions'
+import Records from '@/records'
 
 const tabList = document.querySelectorAll('.tab')
 const trasactionTab = document.querySelector('.transactions')
