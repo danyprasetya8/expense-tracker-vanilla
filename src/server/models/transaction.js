@@ -1,6 +1,7 @@
 const mongoose = require('mongoose')
+const Schema = mongoose.Schema
 
-const transaction = mongoose.Schema({
+const transaction = new Schema({
   desc: {
     type: String,
     required: true
@@ -23,4 +24,4 @@ const transaction = mongoose.Schema({
   }
 })
 
-module.exports = mongoose.model('Transaction', transaction)
+module.exports = mongoose.model('Transactions', transaction)
