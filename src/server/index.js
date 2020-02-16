@@ -2,6 +2,7 @@ const express = require('express')
 const mongoose = require('mongoose')
 const transactionRoutes = require('./routes/api/transaction')
 const categoryRoutes = require('./routes/api/category')
+const cors = require('cors')
 require('dotenv/config')
 const app = express()
 
@@ -10,6 +11,7 @@ const db = mongoose.connection
 db.on('error', error => console.log(error))
 db.once('open', () => console.log('Connected to database') )
 
+app.use(cors())
 app.use(express.json())
 app.use(express.urlencoded({ extended: false }))
 

@@ -20,6 +20,7 @@
   "homepage": "https://github.com/danyprasetya8/expense-tracker-vanilla#readme",
   "dependencies": {
     "chart.js": "^2.9.3",
+    "cors": "^2.8.5",
     "css-loader": "^3.4.2",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",

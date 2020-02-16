@@ -37,10 +37,6 @@ let categoryList = [...DEFAULT_CATEGORY]
 date = moment().format('DD MMMM YYYY')
 currDateEl.innerHTML = date
 
-function generateTransactionId ({ desc, amount, category, type, date }) {
-  return `${desc}$${amount}$${category}$${type}$${date}`
-}
-
 function generateCategoryList (type = '') {
   const el = type === 'edit' ? editCategoryValueEl : categoryValueEl
   el.innerHTML = ''
@@ -88,6 +84,11 @@ function createHistoryDOM () {
 }
 
 function updateDOM () {
+  fetchTransactions()
+    .then(resp => {
+      balanceList = [...resp]
+      console.log(balanceList)
+    })
   const totalBalance = balanceList.reduce((acc, curr) => acc + curr.amount, 0)
   const income = curencyFormat(filterBalance('income'))
   const expense = curencyFormat(filterBalance('expense'))
@@ -129,11 +130,7 @@ function createTransactionObj () {
   const amount = +amountValueEl.value
   const category = categoryValueEl.value
   const type = validateType(amountValueEl.value)
-  const obj = { desc, amount, category, type, date }
-  return {
-    id: generateTransactionId(obj),
-    ...obj
-  }
+  return { desc, amount, category, type, date }
 }
 
 function addNewCategory (e) {
@@ -173,7 +170,8 @@ function addNewTransaction (e) {
   e.preventDefault()
   if (amountValueEl.value.length && categoryValueEl.value.length) {
     const obj = createTransactionObj()
-    balanceList.push(obj)
+    // balanceList.push(obj)
+    postTransaction(obj)
     updateDOM()
     descValueEl.value = ''
     amountValueEl.value = ''
@@ -199,3 +197,22 @@ window.closeModal = (type) => closeModal(type)
 
 getLocalStorage()
 generateCategoryList()
+
+
+async function fetchTransactions () {
+  const resp = await fetch('http://localhost:5001/transactions/')
+  const parsed = await resp.json()
+  return parsed
+}
+
+async function postTransaction (obj) {
+  const params = {
+    method: 'POST',
+    mode: 'cors',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(obj),
+  }
+  await fetch('http://localhost:5001/transactions/', params)
+}

@@ -26,4 +26,4 @@ function changeActiveTab (type) {
 
 window.toggleActiveTab = (type) => changeActiveTab(type)
 
-tabList[1].click()
+tabList[0].click()
