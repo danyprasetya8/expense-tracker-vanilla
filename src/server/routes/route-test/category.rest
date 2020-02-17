@@ -2,5 +2,5 @@ POST http://localhost:5001/categories/
 Content-Type: application/json
 
 {
-  "category": "Category 1"
+  "category": "Transportation"
 }

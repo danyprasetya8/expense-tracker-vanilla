@@ -6,7 +6,9 @@ module.exports = {
       '@': path.resolve(__dirname, './src/views/js')
     }
   },
-  entry: './src/views/index.js',
+  entry: {
+    main: './src/views/index.js'
+  },
   output: {
     path: path.join(__dirname, '/dist'),
     filename: 'bundle.js'

@@ -1,3 +1,5 @@
+import * as fetchApi from '../../views/fetch-api'
+
 const moment = require('moment')
 
 const totalBalanceEl = document.querySelector('.balance-total')
@@ -29,10 +31,12 @@ const descEditEl = document.querySelector('#edit-text-value')
 const amountEditEl = document.querySelector('#edit-amount-value')
 /**-----------------------EDIT TRANSACTION MODAL---------------------------- */
 
-const DEFAULT_CATEGORY = ['SALARY', 'FOOD', 'TRANSPORTATION']
+const TRANSACTION_URL = 'http://localhost:5001/transactions/'
+const CATEGORY_URL = 'http://localhost:5001/categories/'
+// const DEFAULT_CATEGORY = ['SALARY', 'FOOD', 'TRANSPORTATION']
 let balanceList = []
+let categoryList = []
 let date = null
-let categoryList = [...DEFAULT_CATEGORY]
 
 date = moment().format('DD MMMM YYYY')
 currDateEl.innerHTML = date
@@ -40,13 +44,17 @@ currDateEl.innerHTML = date
 function generateCategoryList (type = '') {
   const el = type === 'edit' ? editCategoryValueEl : categoryValueEl
   el.innerHTML = ''
-  categoryList.forEach(category => {
-    const categoryEl = document.createElement('option')
-    categoryEl.value = category.toUpperCase()
-    categoryEl.style.textTransform = 'capitalize'
-    categoryEl.innerHTML = category.toLowerCase()
-    el.appendChild(categoryEl)
-  })
+  fetchApi.getAllViaApi(CATEGORY_URL)
+    .then(resp => {
+      categoryList = [...resp]
+      categoryList.forEach(({ category }) => {
+        const categoryEl = document.createElement('option')
+        categoryEl.value = category.toUpperCase()
+        categoryEl.style.textTransform = 'capitalize'
+        categoryEl.innerHTML = category.toLowerCase()
+        el.appendChild(categoryEl)
+      })
+    })
 }
 
 function curencyFormat (value) {
@@ -60,7 +68,7 @@ function filterBalance (type) {
 
 function createHistoryDOM () {
   historyListEl.innerHTML = ''
-  balanceList.forEach((item, idx) => {
+  balanceList.forEach(item => {
     const type = validateType(item.amount)
     const wrapper = document.createElement('div')
     const icon = document.createElement('div')
@@ -73,7 +81,7 @@ function createHistoryDOM () {
     text.style.textTransform = 'capitalize'
     text.innerHTML = `${item.category.toLowerCase()} ${item.desc}`
     amount.innerHTML = item.amount
-    icon.addEventListener('click', () => deleteTransaction(idx))
+    icon.addEventListener('click', () => deleteTransaction(item._id))
     history.addEventListener('click', () => showEditTransactionModal(item))
     history.appendChild(text)
     history.appendChild(amount)
@@ -84,18 +92,17 @@ function createHistoryDOM () {
 }
 
 function updateDOM () {
-  fetchTransactions()
+  fetchApi.getAllViaApi(TRANSACTION_URL)
     .then(resp => {
       balanceList = [...resp]
-      console.log(balanceList)
+      const totalBalance = balanceList.reduce((acc, curr) => acc + curr.amount, 0)
+      const income = curencyFormat(filterBalance('income'))
+      const expense = curencyFormat(filterBalance('expense'))
+      totalBalanceEl.innerHTML = `$${curencyFormat(totalBalance)}`
+      incomeValueEl.innerHTML = `$${income}`
+      expenseValueEl.innerHTML = `$${expense}`
+      createHistoryDOM()
     })
-  const totalBalance = balanceList.reduce((acc, curr) => acc + curr.amount, 0)
-  const income = curencyFormat(filterBalance('income'))
-  const expense = curencyFormat(filterBalance('expense'))
-  totalBalanceEl.innerHTML = `$${curencyFormat(totalBalance)}`
-  incomeValueEl.innerHTML = `$${income}`
-  expenseValueEl.innerHTML = `$${expense}`
-  createHistoryDOM()
 }
 
 function validateType(val) {
@@ -115,14 +122,16 @@ function showModal (el, layer) {
   layer.classList.add('show')
 }
 
-function showEditTransactionModal ({ id }) {
+function showEditTransactionModal ({ _id }) {
   showModal(editTransactionModalEl, transparentLayerEditTransactionEl)
-  const found = balanceList.find(item => item.id === id)
-  generateCategoryList('edit')
-  categoryEditEl.value = found.category
-  descEditEl.value = found.desc
-  amountEditEl.value = found.amount
-  editTransactionModalEl.addEventListener('submit', (e) => updateTransaction(e, found))
+  fetchApi.getOneViaApi(TRANSACTION_URL, _id)
+    .then(resp => {
+      generateCategoryList('edit')
+      categoryEditEl.value = resp.category
+      descEditEl.value = resp.desc
+      amountEditEl.value = resp.amount
+      editTransactionModalEl.addEventListener('submit', (e) => updateTransaction(e, resp))
+    })
 }
 
 function createTransactionObj () {
@@ -135,12 +144,16 @@ function createTransactionObj () {
 
 function addNewCategory (e) {
   e.preventDefault()
-  const newCategory = addCategoryInput.value
+  const newCategory = {
+    category: addCategoryInput.value
+  }
   categoryErrorMsgEl.style.display = 'none'
-  if (newCategory !== '') {
-    categoryList.push(newCategory)
-    generateCategoryList()
-    closeModal('category')
+  if (newCategory.category !== '') {
+    fetchApi.postViaApi(CATEGORY_URL, newCategory)
+      .then(() => {
+        generateCategoryList()
+        closeModal('category')
+      })
   } else {
     categoryErrorMsgEl.style.display = 'block'
   }
@@ -153,40 +166,34 @@ function updateTransaction (e, found) {
   temp.category = categoryEditEl.value
   temp.desc = descEditEl.value
   temp.amount = amountEditEl.value
-  balanceList[balanceList.indexOf(found)] = temp
-  createHistoryDOM()
-  closeModal('edit')
-  window.localStorage.setItem('balanceList', JSON.stringify(balanceList))
+  fetchApi.updateViaApi(TRANSACTION_URL, temp)
+    .then(() => {
+      updateDOM()
+      closeModal('edit')
+    })
 }
 
-function deleteTransaction (idx) {
-  const temp = balanceList.filter((i, index) => index !== idx)
-  balanceList = [...temp]
-  updateDOM()
-  window.localStorage.setItem('balanceList', JSON.stringify(balanceList))
+function deleteTransaction (id) {
+  fetchApi.deleteViaApi(TRANSACTION_URL, id)
+    .then(() => {
+      updateDOM()
+    })
 }
 
 function addNewTransaction (e) {
   e.preventDefault()
   if (amountValueEl.value.length && categoryValueEl.value.length) {
     const obj = createTransactionObj()
-    // balanceList.push(obj)
-    postTransaction(obj)
-    updateDOM()
-    descValueEl.value = ''
-    amountValueEl.value = ''
-    window.localStorage.setItem('balanceList', JSON.stringify(balanceList))
+    fetchApi.postViaApi(TRANSACTION_URL, obj)
+      .then(() => {
+        updateDOM()
+        descValueEl.value = ''
+        amountValueEl.value = ''
+      })
   } else {
     validationEl.classList.add('show-validation')
     setTimeout(() => validationEl.classList.remove('show-validation'), 1500)
   }
-}
-
-function getLocalStorage () {
-  const storageBalanceList = window.localStorage.getItem('balanceList')
-  const parsedBalanceList = JSON.parse(storageBalanceList) || []
-  balanceList = [...parsedBalanceList]
-  updateDOM()
 }
 
 formEl.addEventListener('submit', addNewTransaction)
@@ -195,24 +202,5 @@ addCategoryEl.addEventListener('click', () => showModal(categoryModalEl, transpa
 
 window.closeModal = (type) => closeModal(type)
 
-getLocalStorage()
 generateCategoryList()
-
-
-async function fetchTransactions () {
-  const resp = await fetch('http://localhost:5001/transactions/')
-  const parsed = await resp.json()
-  return parsed
-}
-
-async function postTransaction (obj) {
-  const params = {
-    method: 'POST',
-    mode: 'cors',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(obj),
-  }
-  await fetch('http://localhost:5001/transactions/', params)
-}
+updateDOM()

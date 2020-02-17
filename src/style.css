@@ -266,9 +266,9 @@ hr {
   position: absolute;
   background: var(--white-color);
   height: 5px;
-  width: 55%;
+  width: 70%;
   top: 50%;
-  transform: translateY(-50%) rotate(55deg);
+  transform: translateY(-50%) rotate(45deg);
 }
 
 .validation {
@@ -486,10 +486,6 @@ hr {
 .record-item {
   display: flex;
   border: 1px solid red;
-}
-
-.record-item div:first-child {
-  /* text-align: right; */
 }
 
 .record-item div {
