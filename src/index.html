@@ -21,6 +21,11 @@
           onclick="toggleActiveTab('RECORDS')">
         Records
       </li>
+      <li class="tab"
+          data-currtab="MANAGE_CATEGORIES"
+          onclick="toggleActiveTab('MANAGE_CATEGORIES')">
+        Manage Category
+      </li>
     </ul>
     <div class="transactions">
       <div class="transaction-container">
@@ -87,10 +92,16 @@
         </div>
       </div>
     </div>
+    <div class="manage-categories">
+      <h2>List of Categories</h2>
+      <div class="category-list">
+        <div class="category">
+          Food
+        </div>
+      </div>
+    </div>
   </div>
-  <div class="validation">
-    You must fill the amount
-  </div>
+  <div class="validation">You must fill the amount</div>
 
   <div class="transparent-layer-category" onclick="closeModal('category')"></div>
   <form class="category-modal">

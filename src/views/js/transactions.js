@@ -33,7 +33,6 @@ const amountEditEl = document.querySelector('#edit-amount-value')
 
 const TRANSACTION_URL = 'http://localhost:5001/transactions/'
 const CATEGORY_URL = 'http://localhost:5001/categories/'
-// const DEFAULT_CATEGORY = ['SALARY', 'FOOD', 'TRANSPORTATION']
 let balanceList = []
 let categoryList = []
 let date = null

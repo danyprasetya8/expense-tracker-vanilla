@@ -83,7 +83,12 @@ body > h1 {
 .records {
   width: 80%;
   display: none;
-  border: 1px solid red;
+}
+
+.manage-categories {
+  width: 80%;
+  display: none;
+  flex-direction: column;
 }
 
 .chart-container {
@@ -492,4 +497,32 @@ hr {
   width: 33%;
   margin-right: 10px;
   text-align: center;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.category-list {
+  border: 1px solid red;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.category {
+  padding: 16px 24px;
+  margin: 8px;
+  background: var(--white-color);
+  box-shadow: 1px 2px 4px rgba(0, 0, 0, 0.3);
+  border-radius: 16px;
+  width: 40%;
 }
